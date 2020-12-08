@@ -1,0 +1,10 @@
+version: '2.4'
+
+services:
+  preview-bot:
+    restart: always
+    image: ysbakker/preview-bot
+    build: .
+    env_file:
+      - .env
+    mem_limit: 50m

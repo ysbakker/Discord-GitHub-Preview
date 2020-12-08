@@ -7,12 +7,14 @@ const { Client } = require('discord.js')
 
 const client = new Client()
 
-client.on('ready', () => debug('Bot ready'))
+client.on('ready', () => log('Bot started successfully'))
 
 client.on('message', async ({ content, channel, author }) => {
   if (!content.includes('github.com/') || author.bot) return
   const sections = content
     .trim()
+    .split(' ')
+    .find(s => s.includes('github.com'))
     .replace('https://', '')
     .replace('http://', '')
     .replace('github.com/', '')
