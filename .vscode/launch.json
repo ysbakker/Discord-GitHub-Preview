@@ -1,0 +1,55 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Run Deno",
+      "request": "launch",
+      "type": "pwa-node",
+      "program": "index.ts",
+      "cwd": "${workspaceFolder}",
+      "runtimeExecutable": "deno",
+      "outputCapture": "std",
+      "runtimeArgs": [
+        "run",
+        "--allow-read=.env,.env.example",
+        "--allow-env",
+        "--allow-net",
+        "--no-check"
+      ],
+    },
+    {
+      "name": "Debug Deno",
+      "request": "launch",
+      "type": "pwa-node",
+      "program": "${file}",
+      "cwd": "${workspaceFolder}",
+      "runtimeExecutable": "deno",
+      "outputCapture": "std",
+      "runtimeArgs": [
+        "run",
+        "--inspect-brk",
+        "--allow-all",
+        "--no-check"
+      ],
+      "attachSimplePort": 9229
+    },
+    {
+      "name": "Watch Deno",
+      "request": "launch",
+      "type": "pwa-node",
+      "program": "index.ts",
+      "cwd": "${workspaceFolder}",
+      "runtimeExecutable": "deno",
+      "outputCapture": "std",
+      "runtimeArgs": [
+        "run",
+        "--allow-read=.env,.env.example",
+        "--allow-env",
+        "--allow-net",
+        "--unstable",
+        "--watch",
+        "--no-check"
+      ],
+    }
+  ]
+}
