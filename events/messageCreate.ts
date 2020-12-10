@@ -33,7 +33,7 @@ const messageCreate = async (message: Message) => {
   if (!rawDataRequest.ok) {
     editMessage(
       await previewMessage,
-      `❌ Could not fetch from ${inputURL}.\nℹ️ ${rawDataRequest.status} ${rawDataRequest.statusText}`
+      `❌ ${rawDataRequest.status} ${rawDataRequest.statusText}`
     )
     return
   }
