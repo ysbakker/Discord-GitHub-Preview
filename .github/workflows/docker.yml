@@ -1,14 +1,23 @@
-name: ci
+name: build
 
 on:
-  push:
-    branches:
-      - master
+  release:
+    types: [published]
+    
     
 jobs:
   main:
     runs-on: ubuntu-latest
     steps:
+      - 
+        name: Get the version
+        id: get_version
+        run: |
+          if [[ ${{ github.ref }} == *"tags"* ]]; then
+            echo ::set-output name=VERSION::${{ github.ref }}#refs/tags/
+          else
+            echo ::set-output name=VERSION::0.0.1_alpha
+          fi
       -
         name: Checkout
         uses: actions/checkout@v2
@@ -29,15 +38,17 @@ jobs:
         name: Build and push
         id: docker_build
         uses: docker/build-push-action@v2
+        env:
+          url: ${{ secrets.REGISTRY_URL }}
+          version: ${{ steps.get_version.outputs.VERSION }}
+          image: ysbakker/discord_github_preview
         with:
           context: .
           file: ./Dockerfile
           push: true
           tags: |
-            ysbakker/discord-github-preview:${GITHUB_REF#refs/tags/}
-            ysbakker/discord-github-preview:latest
-            ${secrets.REGISTRY_URL}/ysbakker/discord-github-preview:${GITHUB_REF#refs/tags/}
-            ${secrets.REGISTRY_URL}/ysbakker/discord-github-preview:latest
+            ${{ env.url }}/${{ env.image }}:latest
+            ${{ env.url }}/${{ env.image }}:${{ env.version }}
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
