@@ -37,10 +37,10 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: |
-            ysbakker/discord-github-preview:$version
+            ysbakker/discord-github-preview:${{ env.version }}
             ysbakker/discord-github-preview:latest
-            $url/ysbakker/discord-github-preview:$version
-            $url/ysbakker/discord-github-preview:latest
+            ${{ env.url }}/ysbakker/discord-github-preview:${{ env.version }}
+            ${{ env.url }}/ysbakker/discord-github-preview:latest
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
