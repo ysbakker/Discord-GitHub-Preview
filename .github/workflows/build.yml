@@ -12,7 +12,6 @@ jobs:
       - 
         name: Get the version
         id: get_version
-        if: contains($GITHUB_REF, 'tags')
         run: |
           if [[ ${{ github.ref }} == *"tags"* ]]; then
             echo ::set-output name=VERSION::${{ github.ref }}#refs/tags/
