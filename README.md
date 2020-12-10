@@ -1,3 +1,5 @@
+![build](https://github.com/ysbakker/Discord-GitHub-Preview/workflows/build/badge.svg)
+
 # GitHub Preview Discord Bot
 
 This bot looks for GitHub URLs and will attempt to get the raw filedata.
