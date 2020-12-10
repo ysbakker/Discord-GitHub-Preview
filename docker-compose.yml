@@ -1,9 +1,9 @@
 version: '2.4'
 
 services:
-  preview-bot:
+  bot:
     restart: always
-    image: ysbakker/preview-bot
+    image: ysbakker/discord-github-preview
     build: .
     env_file:
       - .env
