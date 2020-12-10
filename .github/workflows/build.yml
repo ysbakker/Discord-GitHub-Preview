@@ -31,7 +31,7 @@ jobs:
         uses: docker/build-push-action@v2
         env:
           url: ${{ secrets.REGISTRY_URL }}
-          version: ${{ GITHUB_REF#refs/tags/ }}
+          version: $GITHUB_REF#refs/tags/
         with:
           context: .
           file: ./Dockerfile
