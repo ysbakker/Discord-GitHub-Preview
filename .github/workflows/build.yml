@@ -16,7 +16,7 @@ jobs:
           if [[ ${{ github.ref }} == *"tags"* ]]; then
             echo ::set-output name=VERSION::${{ github.ref }}#refs/tags/
           else
-            echo ::set-output name=VERSION::0.0.1-alpha
+            echo ::set-output name=VERSION::0.0.1_alpha
           fi
       -
         name: Checkout
