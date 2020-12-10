@@ -12,7 +12,13 @@ jobs:
       - 
         name: Get the version
         id: get_version
-        run: echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/}
+        if: contains($GITHUB_REF, 'tags')
+        run: |
+          if [[ ${{ github.ref }} == *"tags"* ]]; then
+            echo ::set-output name=VERSION::${{ github.ref }}#refs/tags/
+          else
+            echo ::set-output name=VERSION::1.0.0
+          fi
       -
         name: Checkout
         uses: actions/checkout@v2
