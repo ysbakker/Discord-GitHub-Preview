@@ -1,7 +1,6 @@
+.vscode
+.img
 .git
 *Dockerfile*
 *docker-compose*
-node_modules
 .env
-.env.production
-.next

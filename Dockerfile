@@ -1,18 +1,11 @@
-FROM node:latest
+FROM hayd/deno:1.5.2
 
 LABEL maintainer="Yorrick Bakker"
-ENV NODE_ENV=production
-USER node
+WORKDIR /app
 
-RUN mkdir -p /home/node/app/node_modules && chown -R node:node /home/node/app
-WORKDIR /home/node/app
+USER deno
 
-COPY package*.json ./
-COPY yarn.lock ./
-RUN yarn install
+ADD . /app
+RUN deno cache index.ts
 
-COPY --chown=node:node . .
-
-ENV DEBUG=log
-
-ENTRYPOINT [ "node", "index.js" ]
+CMD ["run", "--allow-net", "main.ts"]
