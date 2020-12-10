@@ -34,10 +34,10 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: |
-            ysbakker/discord-github-preview:${GITHUB_REF#refs/tags/}
+            ysbakker/discord-github-preview:${{ GITHUB_REF#refs/tags/ }}
             ysbakker/discord-github-preview:latest
-            ${secrets.REGISTRY_URL}/ysbakker/discord-github-preview:${GITHUB_REF#refs/tags/}
-            ${secrets.REGISTRY_URL}/ysbakker/discord-github-preview:latest
+            ${{ secrets.REGISTRY_URL }}/ysbakker/discord-github-preview:${{ GITHUB_REF#refs/tags/ }}
+            ${{ secrets.REGISTRY_URL }}/ysbakker/discord-github-preview:latest
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
