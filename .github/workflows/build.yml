@@ -16,7 +16,7 @@ jobs:
           if [[ ${{ github.ref }} == *"tags"* ]]; then
             echo ::set-output name=VERSION::${{ github.ref }}#refs/tags/
           else
-            echo ::set-output name=VERSION::1.0.0
+            echo ::set-output name=VERSION::0.0.1-alpha
           fi
       -
         name: Checkout
@@ -41,15 +41,16 @@ jobs:
         env:
           url: ${{ secrets.REGISTRY_URL }}
           version: ${{ steps.get_version.outputs.VERSION }}
+          image: ysbakker/discord_github_preview
         with:
           context: .
           file: ./Dockerfile
           push: true
           tags: |
-            ysbakker/discord-github-preview:${{ env.version }}
-            ysbakker/discord-github-preview:latest
-            ${{ env.url }}/ysbakker/discord-github-preview:${{ env.version }}
-            ${{ env.url }}/ysbakker/discord-github-preview:latest
+            ${{ env.image }}:${{ env.version }}
+            ${{ env.image }}:latest
+            ${{ env.url }}/${{ env.image }}:${{ env.version }}
+            ${{ env.url }}/${{ env.image }}:latest
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
