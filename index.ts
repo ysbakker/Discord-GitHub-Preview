@@ -1,6 +1,5 @@
 import { config } from 'https://deno.land/x/dotenv/mod.ts'
 if (Deno.env.get('MODE') === undefined) {
-  console.log(Deno.env.get('MODE'))
   config({ safe: true, export: true, defaults: undefined })
 }
 
