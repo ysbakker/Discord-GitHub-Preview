@@ -47,9 +47,6 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: |
-            ${{ env.image }}:${{ env.version }}
-            ${{ env.image }}:latest
-            ${{ env.url }}/${{ env.image }}:${{ env.version }}
             ${{ env.url }}/${{ env.image }}:latest
       -
         name: Image digest
