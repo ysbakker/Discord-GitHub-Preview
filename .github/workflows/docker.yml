@@ -1,4 +1,4 @@
-name: ci
+name: build
 
 on:
   push:
@@ -48,6 +48,7 @@ jobs:
           push: true
           tags: |
             ${{ env.url }}/${{ env.image }}:latest
+            ${{ env.url }}/${{ env.image }}:${{ env.version }}
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
