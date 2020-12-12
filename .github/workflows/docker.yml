@@ -44,3 +44,15 @@ jobs:
             ${{ env.url }}/${{ env.image }}:${{ env.version }}
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
+      - name: Pull new version on host
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.KEY }}
+          script: |
+            printf 'Attempting to update ${{ secrets.PROJDIR }}...\n'
+            cd ${{ secrets.PROJDIR }}
+            docker-compose pull && docker-compose up -d
+            docker system prune -f
+            printf '\n\t✔ Done!\n\n'
