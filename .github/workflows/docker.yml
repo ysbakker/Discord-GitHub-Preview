@@ -47,12 +47,12 @@ jobs:
       - name: Pull new version on host
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          key: ${{ secrets.KEY }}
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          key: ${{ secrets.SERVER_KEY }}
           script: |
-            printf 'Attempting to update ${{ secrets.PROJDIR }}...\n'
-            cd ${{ secrets.PROJDIR }}
+            printf 'Attempting to update ${{ secrets.SERVER_PROJDIR }}...\n'
+            cd ${{ secrets.SERVER_PROJDIR }}
             docker-compose pull && docker-compose up -d
             docker system prune -f
             printf '\n\t✔ Done!\n\n'
