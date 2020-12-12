@@ -1,18 +1,18 @@
-import { config } from 'https://deno.land/x/dotenv/mod.ts'
-if (Deno.env.get('MODE') === undefined) {
-  config({ safe: true, export: true, defaults: undefined })
-}
+import env from './env.ts'
+import * as log from 'https://deno.land/std@0.76.0/log/mod.ts'
 
-import createClient, {
+import {
+  createClient,
   Intents,
 } from 'https://deno.land/x/discordeno@9.4.0/mod.ts'
+
 import messageCreate from './events/messageCreate.ts'
 
 createClient({
-  token: Deno.env.get('DISCORD_TOKEN')!,
+  token: env('DISCORD_TOKEN')!,
   intents: [Intents.GUILD_MESSAGES, Intents.GUILDS],
   eventHandlers: {
-    ready: () => console.log('🚀 Bot is ready.'),
+    ready: () => log.info('🚀 Bot is ready.'),
     messageCreate,
   },
 })
