@@ -3,6 +3,7 @@ import {
   editMessage,
   Message,
 } from 'https://deno.land/x/discordeno@9.4.0/mod.ts'
+import { utob } from '../services/encodingService.ts'
 import { getGithubFile } from '../services/githubService.ts'
 import { GithubURL } from '../types/common.ts'
 
@@ -48,7 +49,7 @@ const messageCreate = async (message: Message) => {
     return
   }
 
-  const fileContents = atob(file!.content)
+  const fileContents = utob(file!.content)
 
   editMessage(
     await previewMessage,
