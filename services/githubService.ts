@@ -30,15 +30,19 @@ const getGithubFile = async (
   let file = await fileRequest.json()
 
   if (file instanceof Array) {
-    log.info(file.length)
     const s: GithubFile = file.find(
       (f: GithubFile) => f.name.toLowerCase() === 'readme.md'
     )
     if (s === undefined) throw 'File not found'
     const readme = `${BASE_URL}/repos/${fileUrl.user}/${fileUrl.repository}/contents/${fileUrl.path}/${s.name}?ref=${fileUrl.ref}`
+    fileUrl = {
+      ...fileUrl,
+      extension: 'md',
+      file: s.name,
+      path: `${fileUrl.path}/${s.name}`,
+    }
     file = await fetch(readme, getFetchOptions(TOKEN!)).then(res => res.json())
   }
-  log.info(file)
 
   return {
     response: fileRequest,
