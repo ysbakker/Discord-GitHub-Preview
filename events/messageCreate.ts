@@ -4,7 +4,7 @@ import {
   Message,
 } from 'https://deno.land/x/discordeno@9.4.0/mod.ts'
 import { utob } from '../services/encodingService.ts'
-import { getGithubFile } from '../services/githubService.ts'
+import { getGithubFile, parseGithubUrl } from '../services/githubService.ts'
 import { GithubURL } from '../types/common.ts'
 
 const messageCreate = async (message: Message) => {
@@ -17,26 +17,13 @@ const messageCreate = async (message: Message) => {
     .split(' ')
     .find(s => s.includes('github.com/'))
 
-  let path: string[] = []
-  try {
-    const githubURL = new URL(inputURL!)
+  let fileUrl: GithubURL
 
-    if (githubURL.pathname === '/') throw 'invalid path'
-    path = githubURL.pathname.split('/').filter(p => p !== '')
+  try {
+    fileUrl = parseGithubUrl(inputURL!)
   } catch (e) {
     await editMessage(await previewMessage, `Invalid URL: ${inputURL}`)
     return
-  }
-
-  const sections = path.filter(s => s !== 'blob')
-
-  const fileUrl: GithubURL = {
-    user: sections[0],
-    repository: sections[1],
-    ref: sections[2],
-    path: sections.slice(3).join('/'),
-    file: sections.slice(-1)[0],
-    extension: sections.slice(-1)[0].split('.').slice(-1)[0],
   }
 
   const { response, file } = await getGithubFile(fileUrl)
