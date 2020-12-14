@@ -3,53 +3,52 @@ import {
   editMessage,
   Message,
 } from 'https://deno.land/x/discordeno@9.4.0/mod.ts'
+import { utob } from '../util/encoding.ts'
+import {
+  getGithubFile,
+  parseGithubUrl,
+  githubRegex,
+} from '../services/githubService.ts'
+import { GithubFileResponse, GithubURL } from '../types/github.ts'
 
 const messageCreate = async (message: Message) => {
   const { content, channelID, author } = message
   if (!content.includes('github.com/') || author.bot) return
+  const matches = githubRegex(content)
+  if (matches.length == 0) return
   const previewMessage = sendMessage(channelID, '🛠 Fetching preview...')
 
-  const inputURL = content
-    .trim()
-    .split(' ')
-    .find(s => s.includes('github.com/'))
+  let fileUrl: GithubURL
+  let fileResponse: GithubFileResponse
 
-  let path: String[] = []
   try {
-    const githubURL = new URL(inputURL!)
-    if (githubURL.pathname === '/') throw 'invalid path'
-    path = githubURL.pathname.split('/').filter(p => p !== '')
+    fileUrl = parseGithubUrl(matches[0])
+    fileResponse = await getGithubFile(fileUrl)
   } catch (e) {
-    await editMessage(await previewMessage, `Invalid URL: ${inputURL}`)
-    return
+    return editMessage(await previewMessage, `❌ Invalid URL.`)
   }
 
-  const extension = path.slice(-1)[0].split('.').slice(-1)[0]
-  const rawPath = path.filter(s => s !== 'blob').join('/')
-  const rawURL = `https://raw.githubusercontent.com/${rawPath}`
+  const { response, file } = fileResponse
 
-  const rawDataRequest = await fetch(rawURL)
-
-  if (!rawDataRequest.ok) {
-    editMessage(
+  if (!file || !response.ok) {
+    return editMessage(
       await previewMessage,
-      `❌ ${rawDataRequest.status} ${rawDataRequest.statusText}`
+      `❌ HTTP ${response.status} ${response.statusText}`
     )
-    return
   }
 
-  const rawData = (await rawDataRequest).text()
+  const fileContents = utob(file.content)
 
   editMessage(
     await previewMessage,
-    `\`\`\`${extension}\n${(await rawData).substring(0, 1970)}\`\`\``
+    `**${file.name}**\`\`\`${file.extension}\n${fileContents.substring(
+      0,
+      1950
+    )}\`\`\``
   )
 
-  if ((await rawData).length > 1970)
-    await sendMessage(
-      channelID,
-      `Code was truncated, here's the full URL: https://github.com/${inputURL}`
-    )
+  if (fileContents.length > 1970)
+    await sendMessage(channelID, `Code was truncated.`)
 }
 
 export default messageCreate
