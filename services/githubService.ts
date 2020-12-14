@@ -14,7 +14,7 @@ const parseGithubUrl = (url: RegExpMatchArray): GithubURL => ({
 
 const githubRegex = (input: string) => [
   ...input.matchAll(
-    /(https?:\/\/)?(www\.)?github\.com\/([a-z\d](?:[a-z\d]|-(?=[a-z\d])){2,38})\/([A-Za-z0-9_.-]{1,100})\/blob\/([A-Za-z]*)\/?(\S*)?/g
+    /(https?:\/\/)?(www\.)?github\.com\/([a-z\d](?:[a-z\d]|-(?=[a-z\d])){2,38})\/([A-Za-z0-9_.-]{1,100})\/blob\/([^\s\/~^:?*\[]{1,28})\/?(\S*)?/g
   ),
 ]
 
