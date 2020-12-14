@@ -1,4 +1,4 @@
-![build](https://github.com/ysbakker/Discord-GitHub-Preview/workflows/build/badge.svg)
+![CD](https://github.com/ysbakker/Discord-GitHub-Preview/workflows/CD/badge.svg)
 
 # GitHub Preview Discord Bot
 
