@@ -5,19 +5,18 @@ import { GithubURL, GithubFileResponse, GithubFile } from '../types/github.ts'
 const TOKEN = env('GITHUB_TOKEN')
 const BASE_URL = 'https://api.github.com'
 
-const parseGithubUrl = (url: string): GithubURL => {
-  const githubURL = new URL(url)
-  if (githubURL.pathname === '/') throw 'invalid path'
-  const path = githubURL.pathname.split('/').filter(p => p !== '')
-  const sections = path.filter(s => s !== 'blob')
+const parseGithubUrl = (url: RegExpMatchArray): GithubURL => ({
+  user: url[3],
+  repository: url[4],
+  ref: url[5],
+  path: url[6] || '',
+})
 
-  return {
-    user: sections[0],
-    repository: sections[1],
-    ref: sections[2],
-    path: sections.slice(3).join('/'),
-  }
-}
+const githubRegex = (input: string) => [
+  ...input.matchAll(
+    /(https?:\/\/)?(www\.)?github\.com\/([a-z\d](?:[a-z\d]|-(?=[a-z\d])){2,38})\/([A-Za-z0-9_.-]{1,100})\/blob\/([A-Za-z]*)\/?(\S*)?/g
+  ),
+]
 
 const getGithubFile = async (
   fileUrl: GithubURL
@@ -66,4 +65,4 @@ const getFetchHeaders = (token: string): Headers => {
   return headers
 }
 
-export { getGithubFile, parseGithubUrl }
+export { getGithubFile, parseGithubUrl, githubRegex }
