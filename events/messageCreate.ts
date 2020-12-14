@@ -5,7 +5,7 @@ import {
 } from 'https://deno.land/x/discordeno@9.4.0/mod.ts'
 import { utob } from '../services/encodingService.ts'
 import { getGithubFile, parseGithubUrl } from '../services/githubService.ts'
-import { GithubFileResponse, GithubURL } from '../types/common.ts'
+import { GithubFileResponse, GithubURL } from '../types/github.ts'
 
 const messageCreate = async (message: Message) => {
   const { content, channelID, author } = message
@@ -24,25 +24,23 @@ const messageCreate = async (message: Message) => {
     fileUrl = parseGithubUrl(inputURL!)
     fileResponse = await getGithubFile(fileUrl)
   } catch (e) {
-    await editMessage(await previewMessage, `Invalid URL: ${inputURL}`)
-    return
+    return editMessage(await previewMessage, `❌ Invalid URL.`)
   }
 
   const { response, file } = fileResponse
 
-  if (!response.ok) {
-    editMessage(
+  if (!file || !response.ok) {
+    return editMessage(
       await previewMessage,
-      `❌ ${response.status} ${response.statusText}`
+      `❌ HTTP ${response.status} ${response.statusText}`
     )
-    return
   }
 
-  const fileContents = utob(file!.content)
+  const fileContents = utob(file.content)
 
   editMessage(
     await previewMessage,
-    `**${file?.name}**\`\`\`${file!.url.extension}\n${fileContents.substring(
+    `**${file.name}**\`\`\`${file.extension}\n${fileContents.substring(
       0,
       1950
     )}\`\`\``

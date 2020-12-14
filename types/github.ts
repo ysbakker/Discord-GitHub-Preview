@@ -1,10 +1,8 @@
 export interface GithubURL {
   user: string
   repository: string
-  ref: string
   path: string
-  file: string
-  extension: string
+  ref: string
 }
 
 export interface GithubFile {
@@ -12,6 +10,7 @@ export interface GithubFile {
   path: string
   content: string
   type: string
+  extension: string
   url: GithubURL
 }
 
