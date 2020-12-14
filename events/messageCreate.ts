@@ -3,7 +3,7 @@ import {
   editMessage,
   Message,
 } from 'https://deno.land/x/discordeno@9.4.0/mod.ts'
-import { utob } from '../services/encodingService.ts'
+import { utob } from '../util/encoding.ts'
 import {
   getGithubFile,
   parseGithubUrl,
