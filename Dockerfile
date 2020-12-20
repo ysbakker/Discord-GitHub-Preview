@@ -1,4 +1,4 @@
-FROM hayd/deno:1.5.2
+FROM hayd/deno:1.6.0
 
 LABEL maintainer="Yorrick Bakker"
 WORKDIR /app

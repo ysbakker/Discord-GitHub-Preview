@@ -3,7 +3,7 @@ name: Beta
 on:
   push:
     branches:
-      - develop
+      - experimental
 
 jobs:
   main:

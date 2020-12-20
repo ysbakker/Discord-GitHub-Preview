@@ -13,8 +13,7 @@
         "run",
         "--allow-read=.env,.env.example",
         "--allow-env",
-        "--allow-net",
-        "--no-check"
+        "--allow-net"
       ],
     },
     {
@@ -29,7 +28,6 @@
         "run",
         "--inspect-brk",
         "--allow-all",
-        "--no-check"
       ],
       "attachSimplePort": 9229
     },
@@ -48,7 +46,6 @@
         "--allow-net",
         "--unstable",
         "--watch",
-        "--no-check"
       ],
     }
   ]
