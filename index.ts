@@ -14,5 +14,6 @@ createClient({
   eventHandlers: {
     ready: () => log.info('🚀 Bot is ready.'),
     messageCreate,
+    debug: data => log.info(data),
   },
 })
