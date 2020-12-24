@@ -1,0 +1,12 @@
+version: '2.4'
+
+services:
+  bot:
+    build: .
+    env_file:
+      - .env
+    environment:
+      - STAGE=Development
+    volumes:
+      - ./:/app
+    mem_limit: 500m

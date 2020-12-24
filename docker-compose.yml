@@ -3,8 +3,8 @@ version: '2.4'
 services:
   bot:
     restart: always
-    image: ysbakker/discord-github-preview
-    build: .
-    env_file:
-      - .env
-    mem_limit: 50m
+    image: ysbakker/discord-github-preview:latest
+    environment:
+      - DOCKER=true
+      - STAGE=Production
+    mem_limit: 100m

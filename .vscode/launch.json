@@ -5,7 +5,7 @@
       "name": "Run Deno",
       "request": "launch",
       "type": "pwa-node",
-      "program": "index.ts",
+      "program": "bot.ts",
       "cwd": "${workspaceFolder}",
       "runtimeExecutable": "deno",
       "outputCapture": "std",
@@ -35,7 +35,7 @@
       "name": "Watch Deno",
       "request": "launch",
       "type": "pwa-node",
-      "program": "index.ts",
+      "program": "bot.ts",
       "cwd": "${workspaceFolder}",
       "runtimeExecutable": "deno",
       "outputCapture": "std",
@@ -48,5 +48,5 @@
         "--watch",
       ],
     }
-  ]
+  ],
 }

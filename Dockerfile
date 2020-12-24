@@ -2,11 +2,10 @@ FROM hayd/deno:1.6.0
 
 LABEL maintainer="Yorrick Bakker"
 WORKDIR /app
-ENV MODE=production
 
 USER deno
 
 ADD . /app
-RUN deno cache index.ts
+RUN deno cache bot.ts
 
-CMD ["run", "--allow-net", "--allow-env", "index.ts"]
+CMD ["run", "--allow-net", "--allow-env", "bot.ts"]
