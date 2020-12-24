@@ -1,9 +1,5 @@
-import env from '../env.ts'
 import * as log from 'https://deno.land/std@0.76.0/log/mod.ts'
 import { GithubURL, GithubFileResponse, GithubFile } from '../types/github.ts'
-
-const TOKEN = env('GITHUB_TOKEN')
-const BASE_URL = 'https://api.github.com'
 
 const parseGithubUrl = (url: RegExpMatchArray): GithubURL => ({
   user: url[3],
@@ -21,6 +17,9 @@ const githubRegex = (input: string) => [
 const getGithubFile = async (
   fileUrl: GithubURL
 ): Promise<GithubFileResponse> => {
+  const TOKEN = Deno.env.get('GITHUB_TOKEN')
+  const BASE_URL = 'https://api.github.com'
+
   let file: GithubFile
   const url = `${BASE_URL}/repos/${fileUrl.user}/${fileUrl.repository}/contents/${fileUrl.path}?ref=${fileUrl.ref}`
 
